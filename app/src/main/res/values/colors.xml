@@ -3,4 +3,6 @@
     <color name="colorPrimary">#303030</color>
     <color name="colorPrimaryDark">#1d1d1d</color>
     <color name="colorAccent">#FF4081</color>
+    <color name="colorText">#ffffff</color>
+    <color name="colorYear">#999999</color>
 </resources>
