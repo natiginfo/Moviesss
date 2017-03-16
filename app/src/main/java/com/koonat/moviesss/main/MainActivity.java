@@ -2,25 +2,22 @@ package com.koonat.moviesss.main;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
-import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.koonat.moviesss.BaseApp;
 import com.koonat.moviesss.R;
 import com.koonat.moviesss.about.AboutUsActivity;
+import com.koonat.moviesss.details.MovieDetailsActivity;
 import com.koonat.moviesss.models.Movie;
 import com.koonat.moviesss.models.MovieListResponse;
 import com.koonat.moviesss.networking.Service;
@@ -44,6 +41,9 @@ public class MainActivity extends BaseApp
 
     @BindView(R.id.recyclerViewMoviesList)
     RecyclerView recyclerView;
+
+    @BindView(R.id.progressBar)
+    ProgressBar progressBar;
 
     @Inject
     public Service service;
@@ -101,17 +101,19 @@ public class MainActivity extends BaseApp
 
     @Override
     public void showProgress() {
-
+        recyclerView.setVisibility(View.GONE);
+        progressBar.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void removeProgress() {
-
+        progressBar.setVisibility(View.GONE);
+        recyclerView.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void onFailure(String errorMessage) {
-
+        Toast.makeText(this, "Error: " + errorMessage, Toast.LENGTH_LONG).show();
     }
 
     @Override
@@ -120,9 +122,8 @@ public class MainActivity extends BaseApp
                 new MainAdapter.OnItemClickListener() {
                     @Override
                     public void onClick(Movie movie) {
-                        Log.d("MainActivity", "Clicked");
-                        Toast.makeText(getApplicationContext(), movie.getTitle(),
-                                Toast.LENGTH_SHORT).show();
+                        Intent intent = MovieDetailsActivity.newIntent(MainActivity.this, movie.getTitle() + " (" + movie.getYear() + ")", movie.getImageUrl(), movie.getOverview());
+                        startActivity(intent);
                     }
                 });
 

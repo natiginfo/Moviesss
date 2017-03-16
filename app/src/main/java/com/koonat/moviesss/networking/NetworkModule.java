@@ -47,6 +47,7 @@ public class NetworkModule {
                     @Override
                     public okhttp3.Response intercept(Chain chain) throws IOException {
                         okhttp3.Response originalResponse = chain.proceed(chain.request());
+                        Log.d("NetworkModule", "p1");
                         String cacheControl = originalResponse.header("Cache-Control");
 
                         if (cacheControl == null || cacheControl.contains("no-store") || cacheControl.contains("no-cache") ||
@@ -63,6 +64,7 @@ public class NetworkModule {
                     @Override
                     public okhttp3.Response intercept(Chain chain) throws IOException {
                         Request request = chain.request();
+                        Log.d("NetworkModule", "p2");
 
                         if (!Utils.isConnectiongToInternet(context)) {
                             Log.d("Network Module", "rewriting request");

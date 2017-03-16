@@ -3,7 +3,6 @@ package com.koonat.moviesss.networking;
 import com.koonat.moviesss.models.MovieListResponse;
 
 import retrofit2.http.GET;
-import retrofit2.http.Path;
 import rx.Observable;
 
 /**
