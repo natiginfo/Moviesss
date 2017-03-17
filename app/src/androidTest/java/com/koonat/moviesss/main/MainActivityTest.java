@@ -34,9 +34,8 @@ public class MainActivityTest {
 
     @Test
     public void mainActivityTest() {
-
+        // This test should pass if there's internet connection
         onView(withId(R.id.recyclerViewMoviesList)).perform(RecyclerViewActions.actionOnItemAtPosition(2, click()));
-
 
         pressBack();
 
