@@ -4,7 +4,12 @@ import com.koonat.moviesss.models.MovieListResponse;
 import com.koonat.moviesss.networking.NetworkError;
 import com.koonat.moviesss.networking.Service;
 
+import rx.Observable;
+import rx.Subscriber;
 import rx.Subscription;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Func1;
+import rx.schedulers.Schedulers;
 import rx.subscriptions.CompositeSubscription;
 
 /**
@@ -25,25 +30,40 @@ public class MainPresenter {
     public void getMovieList() {
         view.showProgress();
 
-        Subscription subscription = service.getMovieList(new Service.GetMovieListCallback() {
-            @Override
-            public void onSuccess(MovieListResponse movieListResponse) {
-                view.removeProgress();
-                view.onSuccess(movieListResponse);
-            }
+        Subscription subscription = service.getMovieList()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .onErrorResumeNext(new Func1<Throwable, Observable<? extends MovieListResponse>>() {
+                    @Override
+                    public Observable<? extends MovieListResponse> call(Throwable throwable) {
+                        return Observable.error(throwable);
+                    }
+                })
+                .subscribe(new Subscriber<MovieListResponse>() {
+                    @Override
+                    public void onCompleted() {
 
-            @Override
-            public void onError(NetworkError networkError) {
-                view.removeProgress();
-                view.onFailure(networkError.getAppErrorMessage());
-            }
+                    }
 
-        });
+                    @Override
+                    public void onError(Throwable e) {
+                        NetworkError networkError = new NetworkError(e);
+                        view.removeProgress();
+                        view.onFailure(networkError.getAppErrorMessage());
 
+                    }
+
+                    @Override
+                    public void onNext(MovieListResponse movieListResponse) {
+                        view.removeProgress();
+                        view.onSuccess(movieListResponse);
+                    }
+                });
         subscriptions.add(subscription);
     }
 
     public void onStop() {
         subscriptions.unsubscribe();
     }
+    
 }
