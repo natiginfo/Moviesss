@@ -54,6 +54,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
 
         holder.ratingTV.setText(movie.getVoteAverage().toString());
         holder.titleTV.setText(movie.getTitle() + " (" + movie.getYear() + ")");
+
     }
 
     @Override

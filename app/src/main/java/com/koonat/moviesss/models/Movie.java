@@ -3,6 +3,10 @@ package com.koonat.moviesss.models;
 import com.google.gson.annotations.SerializedName;
 import com.koonat.moviesss.defaults.Constants;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -166,10 +170,24 @@ public class Movie {
     }
 
     public String getImageUrl() {
-        return Constants.IMAGE_URL + backdropPath;
+        if (backdropPath == null || backdropPath.isEmpty()) {
+            return null;
+        } else {
+            return Constants.IMAGE_URL + backdropPath;
+        }
     }
 
     public String getYear() {
-        return releaseDate.substring(0, 4);
+        try {
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            Date parse = simpleDateFormat.parse(releaseDate);
+
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(parse);
+
+            return Integer.toString(calendar.get(Calendar.YEAR));
+        } catch (ParseException ex) {
+            return null;
+        }
     }
 }

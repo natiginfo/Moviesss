@@ -124,6 +124,7 @@ public class MainActivity extends BaseApp
                     public void onClick(Movie movie) {
                         Intent intent = MovieDetailsActivity.newIntent(MainActivity.this, movie.getTitle() + " (" + movie.getYear() + ")", movie.getImageUrl(), movie.getOverview());
                         startActivity(intent);
+
                     }
                 });
 

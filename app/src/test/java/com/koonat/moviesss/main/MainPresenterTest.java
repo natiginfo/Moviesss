@@ -38,21 +38,22 @@ public class MainPresenterTest {
         presenter = new MainPresenter(mockService, view);
     }
 
-
     @Test
     public void shouldPass() {
         Assert.assertEquals(1, 1);
     }
+
+    //getMoviesWithSuccessPasses
+    //getMoviesWithFailureFails
+
 
     @Test
     public void test1() {
         List<Movie> moviesList = Arrays.asList(new Movie(), new Movie(), new Movie());
         MovieListResponse movieListResponse = new MovieListResponse();
         movieListResponse.setResults(moviesList);
-
         Observable<MovieListResponse> mockObservable = Observable.just(movieListResponse);
         doReturn(mockObservable).when(mockService).getMovieList();
-
     }
 
 
