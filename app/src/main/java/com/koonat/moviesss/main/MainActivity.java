@@ -30,23 +30,17 @@ import butterknife.ButterKnife;
 public class MainActivity extends BaseApp
         implements NavigationView.OnNavigationItemSelectedListener, MainView {
 
-    @BindView(R.id.toolbar)
-    Toolbar toolbar;
+    @BindView(R.id.toolbar) Toolbar toolbar;
 
-    @BindView(R.id.drawer_layout)
-    DrawerLayout drawerLayout;
+    @BindView(R.id.drawer_layout) DrawerLayout drawerLayout;
 
-    @BindView(R.id.nav_view)
-    NavigationView navigationView;
+    @BindView(R.id.nav_view) NavigationView navigationView;
 
-    @BindView(R.id.recyclerViewMoviesList)
-    RecyclerView recyclerView;
+    @BindView(R.id.recyclerViewMoviesList) RecyclerView recyclerView;
 
-    @BindView(R.id.progressBar)
-    ProgressBar progressBar;
+    @BindView(R.id.progressBar) ProgressBar progressBar;
 
-    @Inject
-    public Service service;
+    @Inject public Service service;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
